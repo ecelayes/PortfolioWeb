@@ -57,6 +57,6 @@ public class Proyecto implements Serializable {
     //Relaciones  entre modelos
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "persona_id")
-    private Persona persona;
+    @JoinColumn(name = "persona_proyecto")
+    private Persona personaProyecto;
 }

@@ -62,15 +62,15 @@ public class Persona implements Serializable {
 
     //Relaciones entre modelos
     
-    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "personaEducacion", cascade = CascadeType.ALL)
     private List<Educacion> educaciones;
     
-    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "personaExperiencia", cascade = CascadeType.ALL)
     private List<Experiencia> experiencias;
     
-    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "personaHabilidad", cascade = CascadeType.ALL)
     private List<Habilidad> habilidades;
     
-    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "personaProyecto", cascade = CascadeType.ALL)
     private List<Proyecto> proyectos;
 }

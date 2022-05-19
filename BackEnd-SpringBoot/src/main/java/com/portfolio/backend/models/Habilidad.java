@@ -43,6 +43,6 @@ public class Habilidad implements Serializable {
     //Relaciones  entre modelos
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "persona_id")
-    private Persona persona;
+    @JoinColumn(name = "persona_habilidad")
+    private Persona personaHabilidad;
 }
