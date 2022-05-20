@@ -22,7 +22,7 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "persona")
+@Table(name = "personas")
 public class Persona implements Serializable {
         
     @Id
@@ -41,6 +41,10 @@ public class Persona implements Serializable {
     @NotEmpty
     @Column(name = "titulo")
     private String titulo;
+    
+    @NotEmpty
+    @Column(name = "fecha_nacimiento")
+    private String fechaNacimiento;
     
     @NotEmpty
     @Column(name = "localidad")
@@ -62,15 +66,15 @@ public class Persona implements Serializable {
 
     //Relaciones entre modelos
     
-    @OneToMany(mappedBy = "personaEducacion", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL)
     private List<Educacion> educaciones;
     
-    @OneToMany(mappedBy = "personaExperiencia", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL)
     private List<Experiencia> experiencias;
     
-    @OneToMany(mappedBy = "personaHabilidad", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL)
     private List<Habilidad> habilidades;
     
-    @OneToMany(mappedBy = "personaProyecto", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "persona", cascade = CascadeType.ALL)
     private List<Proyecto> proyectos;
 }

@@ -1,5 +1,6 @@
 package com.portfolio.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +22,7 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "educacion")
+@Table(name = "educaciones")
 public class Educacion implements Serializable {
         
     @Id
@@ -55,6 +56,7 @@ public class Educacion implements Serializable {
     //Relaciones  entre modelos
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "persona_educacion")
-    private Persona personaEducacion;
+    @JoinColumn(name = "id_persona")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Persona persona;
 }
