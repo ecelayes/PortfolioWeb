@@ -1,23 +1,20 @@
 package com.portfolio.backend.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
-import com.sun.istack.NotNull;
 import java.io.Serializable;
 import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Builder
 @Entity
 @Getter @Setter
 @NoArgsConstructor
@@ -27,7 +24,7 @@ public class Educacion implements Serializable {
         
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_educacion")
+    @Column(name = "id")
     private Long id;
     
     @NotEmpty
@@ -42,21 +39,15 @@ public class Educacion implements Serializable {
     @Column(name = "carrera")
     private String carrera;
     
-    @NotNull
+    @NotEmpty
     @Column(name = "fecha_inicio")
-    private int fechaInicio;
+    private String fechaInicio;
     
-    @NotNull
     @Column(name = "fecha_fin")
-    private int fechaFin;
+    private String fechaFin;
     
+    @NotEmpty
     @Column(name = "dir_icono")
     private String dirIcono;
     
-    //Relaciones  entre modelos
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_persona")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Persona persona;
 }

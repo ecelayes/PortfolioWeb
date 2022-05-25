@@ -1,16 +1,12 @@
 package com.portfolio.backend.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -28,7 +24,7 @@ public class Proyecto implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_proyecto")
+    @Column(name = "id")
     private Long id;
     
     @NotEmpty
@@ -41,24 +37,17 @@ public class Proyecto implements Serializable {
     
     @NotNull
     @Column(name = "fecha_inicio")
-    private int fechaIncio;
+    private String fechaIncio;
     
     @Column(name = "fecha_fin")
-    private int fechaFin;
+    private String fechaFin;
     
     @NotEmpty
     @Column(name = "descripcion")
-    @Size(max = 200, message = "Se excede la longitud de 200 caracteres")
+    @Size(max = 255, message = "Se excede la longitud de 255 caracteres")
     private String descripcion;
     
-    @NotEmpty
     @Column(name = "link")
     private String link;
     
-    //Relaciones  entre modelos
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_persona")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Persona persona;
 }

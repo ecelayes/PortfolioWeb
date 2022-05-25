@@ -10,39 +10,41 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/persona")
 public class PersonaController {
     
     @Autowired
-    private IPersonaService userServ;
+    private IPersonaService personaServ;
     
-    @PostMapping("/new/persona")
+    @PostMapping("/new")
     public void crearPersona(@RequestBody Persona persona){
-        userServ.crearPersona(persona);
+        personaServ.crearPersona(persona);
     }
     
-    @DeleteMapping("/delete/persona/{id}")
+    @DeleteMapping("/delete/{id}")
     public void borrarPersona(@PathVariable Long id){
-        userServ.borrarPersona(id);
+        personaServ.borrarPersona(id);
     }
     
-    @PutMapping("/modificar/persona")
+    @PutMapping("/modificar")
     public void modificarPersona(@RequestBody Persona persona){
-        userServ.modificarPersona(persona);
+        personaServ.modificarPersona(persona);
     }
     
-    @GetMapping("/buscar/persona/{id}")
+    @GetMapping("/buscar/{id}")
     @ResponseBody
     public Persona buscarPersona(@PathVariable Long id){
-        return userServ.buscarPersona(id);
+        return personaServ.buscarPersona(id);
     }
     
-    @GetMapping("/ver/personas")
+    @GetMapping("/ver")
     @ResponseBody
     public List<Persona> verPersonas(){
-        return userServ.verPersonas();
+        return personaServ.verPersonas();
     }
 }

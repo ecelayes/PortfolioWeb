@@ -10,37 +10,39 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/habilidad")
 public class HabilidadController {
     
     @Autowired
     private IHabilidadService expServ;
     
-    @PostMapping("/new/habilidad")
+    @PostMapping("/new")
     public void crearHabilidad(@RequestBody Habilidad habilidad){
         expServ.crearHabilidad(habilidad);
     }
     
-    @DeleteMapping("/delete/habilidad/{id}")
+    @DeleteMapping("/delete/{id}")
     public void borrarHabilidad(@PathVariable Long id){
         expServ.borrarHabilidad(id);
     }
     
-    @PutMapping("/modificar/habilidad")
+    @PutMapping("/modificar")
     public void modificarHabilidad(@RequestBody Habilidad habilidad){
         expServ.modificarHabilidad(habilidad);
     }
     
-    @GetMapping("/buscar/habilidad/{id}")
+    @GetMapping("/buscar/{id}")
     @ResponseBody
     public Habilidad buscarHabilidad(@PathVariable Long id){
         return expServ.buscarHabilidad(id);
     }
     
-    @GetMapping("/ver/habilidad")
+    @GetMapping("/ver")
     @ResponseBody
     public List<Habilidad> verHabilidades(){
         return expServ.verHabilidades();
