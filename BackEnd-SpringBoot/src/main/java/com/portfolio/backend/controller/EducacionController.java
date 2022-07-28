@@ -4,6 +4,7 @@ import com.portfolio.backend.models.Educacion;
 import com.portfolio.backend.service.IEducacionService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,36 +16,38 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/educacion")
 public class EducacionController {
     
     @Autowired
     private IEducacionService eduServ;
     
-    @PostMapping("/new")
-    public void crearEducacion(@RequestBody Educacion educacion){
-        eduServ.crearEducacion(educacion);
+    @PostMapping("/guardar")
+    public void guardarEducacion(@RequestBody Educacion educacion){
+        eduServ.guardarEducacion(educacion);
     }
     
     @DeleteMapping("/delete/{id}")
-    public void borrarEduacion(@PathVariable Long id){
+    public void borrarEduacion(@PathVariable("id") Long id){
         eduServ.borrarEducacion(id);
     }
     
-    @PutMapping("/modificar")
-    public void modificarEduacion(@RequestBody Educacion educacion){
-        eduServ.modificarEducacion(educacion);
+    @PutMapping("/modificar/{id}")
+    public void modificarEduacion(@PathVariable("id") Long id, @RequestBody Educacion educacion){
+        educacion.setId(id);
+        eduServ.guardarEducacion(educacion);
     }
     
     @GetMapping("/buscar/{id}")
     @ResponseBody
-    public Educacion buscarEducacion(@PathVariable Long id){
+    public Educacion buscarEducacion(@PathVariable("id") Long id){
         return eduServ.buscarEducacion(id);
     }
     
-    @GetMapping("/ver")
+    @GetMapping("/listar")
     @ResponseBody
-    public List<Educacion> verEducaciones(){
-        return eduServ.verEducaciones();
+    public List<Educacion> listarEducaciones(){
+        return eduServ.listarEducaciones();
     }
 }

@@ -13,8 +13,8 @@ public class HabilidadService implements IHabilidadService{
     public HabilidadRepository habRepo;
     
     @Override
-    public void crearHabilidad(Habilidad habilidad) {
-        habRepo.save(habilidad);
+    public Habilidad guardarHabilidad(Habilidad habilidad) {
+        return habRepo.save(habilidad);
     }
 
     @Override
@@ -23,17 +23,12 @@ public class HabilidadService implements IHabilidadService{
     }
 
     @Override
-    public void modificarHabilidad(Habilidad habilidad) {
-        habRepo.save(habilidad);
-    }
-
-    @Override
     public Habilidad buscarHabilidad(Long id) {
         return habRepo.findById(id).orElse(null);
     }
 
     @Override
-    public List<Habilidad> verHabilidades() {
+    public List<Habilidad> listarHabilidades() {
         return habRepo.findAll();
     }
     

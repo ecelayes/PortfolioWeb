@@ -4,6 +4,7 @@ import com.portfolio.backend.models.Habilidad;
 import com.portfolio.backend.service.IHabilidadService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,36 +16,38 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/habilidad")
 public class HabilidadController {
     
     @Autowired
     private IHabilidadService expServ;
     
-    @PostMapping("/new")
-    public void crearHabilidad(@RequestBody Habilidad habilidad){
-        expServ.crearHabilidad(habilidad);
+    @PostMapping("/guardar")
+    public Habilidad guardarHabilidad(@RequestBody Habilidad habilidad){
+        return expServ.guardarHabilidad(habilidad);
     }
     
-    @DeleteMapping("/delete/{id}")
-    public void borrarHabilidad(@PathVariable Long id){
+    @DeleteMapping("/borrar/{id}")
+    public void borrarHabilidad(@PathVariable("id") Long id){
         expServ.borrarHabilidad(id);
     }
     
-    @PutMapping("/modificar")
-    public void modificarHabilidad(@RequestBody Habilidad habilidad){
-        expServ.modificarHabilidad(habilidad);
+    @PutMapping("/modificar/{id}")
+    public Habilidad modificarHabilidad(@PathVariable("id") Long id, @RequestBody Habilidad habilidad){
+        habilidad.setId(id);
+        return expServ.guardarHabilidad(habilidad);
     }
     
     @GetMapping("/buscar/{id}")
     @ResponseBody
-    public Habilidad buscarHabilidad(@PathVariable Long id){
+    public Habilidad buscarHabilidad(@PathVariable("id") Long id){
         return expServ.buscarHabilidad(id);
     }
     
-    @GetMapping("/ver")
+    @GetMapping("/listar")
     @ResponseBody
-    public List<Habilidad> verHabilidades(){
-        return expServ.verHabilidades();
+    public List<Habilidad> listarHabilidades(){
+        return expServ.listarHabilidades();
     }
 }

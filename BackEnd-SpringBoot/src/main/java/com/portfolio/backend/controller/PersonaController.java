@@ -4,6 +4,7 @@ import com.portfolio.backend.models.Persona;
 import com.portfolio.backend.service.IPersonaService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,36 +16,38 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/persona")
 public class PersonaController {
     
     @Autowired
     private IPersonaService personaServ;
     
-    @PostMapping("/new")
-    public void crearPersona(@RequestBody Persona persona){
-        personaServ.crearPersona(persona);
+    @PostMapping("/guardar")
+    public Persona guardarPersona(@RequestBody Persona persona){
+        return personaServ.guardarPersona(persona);
     }
     
-    @DeleteMapping("/delete/{id}")
-    public void borrarPersona(@PathVariable Long id){
+    @DeleteMapping("/borrar/{id}")
+    public void borrarPersona(@PathVariable("id") Long id){
         personaServ.borrarPersona(id);
     }
     
-    @PutMapping("/modificar")
-    public void modificarPersona(@RequestBody Persona persona){
-        personaServ.modificarPersona(persona);
+    @PutMapping("/editar/{id}")
+    public Persona editarPersona(@PathVariable("id") Long id, @RequestBody Persona persona){
+        persona.setId(id);
+        return personaServ.guardarPersona(persona);
     }
     
     @GetMapping("/buscar/{id}")
     @ResponseBody
-    public Persona buscarPersona(@PathVariable Long id){
+    public Persona buscarPersona(@PathVariable("id") Long id){
         return personaServ.buscarPersona(id);
     }
     
-    @GetMapping("/ver")
+    @GetMapping("/listar")
     @ResponseBody
-    public List<Persona> verPersonas(){
-        return personaServ.verPersonas();
+    public List<Persona> listarPersonas(){
+        return personaServ.listarPersonas();
     }
 }

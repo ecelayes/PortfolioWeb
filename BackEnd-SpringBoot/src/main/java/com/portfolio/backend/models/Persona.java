@@ -1,10 +1,12 @@
 package com.portfolio.backend.models;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,7 +30,7 @@ public class Persona implements Serializable {
         
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable=false)
+    @Column(name = "id", updatable = false)
     private Long id;
     
     @NotEmpty
@@ -66,22 +68,22 @@ public class Persona implements Serializable {
     @Column(name = "dir_foto")
     @Size(max = 255, message = "Se excede la longitud de 255 caracteres")
     private String dirFoto;
-
+    
     //Relaciones entre modelos unidimencionales
-  
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "personas_id")
-    private List<Educacion> educaciones;
     
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "personas_id")
-    private List<Experiencia> experiencias;
+    private Set<Educacion> educaciones = new HashSet<>();
     
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "personas_id")
-    private List<Habilidad> habilidades;
+    private Set<Experiencia> experiencias = new HashSet<>();
     
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "personas_id")
-    private List<Proyecto> proyectos;
+    private Set<Habilidad> habilidades = new HashSet<>();
+    
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "personas_id")
+    private Set<Proyecto> proyectos = new HashSet<>();
 }

@@ -29,17 +29,21 @@ public class Proyecto implements Serializable {
     
     @NotEmpty
     @Column(name = "nombre")
+    @Size(max = 100, message = "Se excede la longitud de 100 caracteres")
     private String nombre;
     
     @NotEmpty
     @Column(name = "dir_imagen")
+    @Size(max = 255, message = "Se excede la longitud de 255 caracteres")
     private String dirImagen;
     
     @NotNull
     @Column(name = "fecha_inicio")
+    @Size(max = 10, message = "Se excede la longitud de 10 caracteres")
     private String fechaIncio;
     
     @Column(name = "fecha_fin")
+    @Size(max = 10, message = "Se excede la longitud de 10 caracteres")
     private String fechaFin;
     
     @NotEmpty
@@ -48,6 +52,7 @@ public class Proyecto implements Serializable {
     private String descripcion;
     
     @Column(name = "link")
+    @Size(max = 255, message = "Se excede la longitud de 255 caracteres")
     private String link;
     
 }

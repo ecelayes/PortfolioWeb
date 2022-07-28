@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,25 +30,31 @@ public class Educacion implements Serializable {
     
     @NotEmpty
     @Column(name = "institucion")
+    @Size(max = 50, message = "Se excede la longitud de 50 caracteres")
     private String institucion;
     
     @NotEmpty
     @Column(name = "titulo")
+    @Size(max = 50, message = "Se excede la longitud de 50 caracteres")
     private String titulo;
     
     @NotEmpty
     @Column(name = "carrera")
+    @Size(max = 50, message = "Se excede la longitud de 50 caracteres")
     private String carrera;
     
     @NotEmpty
     @Column(name = "fecha_inicio")
+    @Size(max = 10, message = "Se excede la longitud de 10 caracteres")
     private String fechaInicio;
     
     @Column(name = "fecha_fin")
+    @Size(max = 10, message = "Se excede la longitud de 10 caracteres")
     private String fechaFin;
     
     @NotEmpty
     @Column(name = "dir_icono")
+    @Size(max = 255, message = "Se excede la longitud de 255 caracteres")
     private String dirIcono;
     
 }

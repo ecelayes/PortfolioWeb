@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,9 +29,11 @@ public class Habilidad implements Serializable {
     
     @NotEmpty
     @Column(name = "nombre")
+    @Size(max = 15, message = "Se excede la longitud de 15 caracteres")
     private String nombre;
     
     @Column(name = "dir_icono")
+    @Size(max = 255, message = "Se excede la longitud de 255 caracteres")
     private String dirIcono;
     
     @NotNull

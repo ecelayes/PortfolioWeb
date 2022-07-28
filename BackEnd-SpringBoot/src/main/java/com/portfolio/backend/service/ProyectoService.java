@@ -13,8 +13,8 @@ public class ProyectoService implements IProyectoService{
     public ProyectoRepository proRepo;
     
     @Override
-    public void crearProyecto(Proyecto proyecto) {
-        proRepo.save(proyecto);
+    public Proyecto guardarProyecto(Proyecto proyecto) {
+        return proRepo.save(proyecto);
     }
 
     @Override
@@ -23,17 +23,12 @@ public class ProyectoService implements IProyectoService{
     }
 
     @Override
-    public void modificarProyecto(Proyecto proyecto) {
-        proRepo.save(proyecto);
-    }
-
-    @Override
     public Proyecto buscarProyecto(Long id) {
         return proRepo.findById(id).orElse(null);
     }
 
     @Override
-    public List<Proyecto> verProyectos() {
+    public List<Proyecto> listarProyectos() {
         return proRepo.findAll();
     }
     

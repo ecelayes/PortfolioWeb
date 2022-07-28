@@ -4,9 +4,8 @@ import com.portfolio.backend.models.Persona;
 import java.util.List;
 
 public interface IPersonaService {
-    public void crearPersona(Persona persona);
+    public Persona guardarPersona(Persona persona);
     public void borrarPersona (Long id);
-    public void modificarPersona(Persona persona);
     public Persona buscarPersona (Long id);
-    public List<Persona> verPersonas();
+    public List<Persona> listarPersonas();
 }

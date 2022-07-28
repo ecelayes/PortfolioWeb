@@ -10,21 +10,16 @@ import com.portfolio.backend.repository.PersonaRepository;
 public class PersonaService implements IPersonaService{
     
     @Autowired
-    public PersonaRepository personaRepo;  
+    private PersonaRepository personaRepo;  
 
     @Override
-    public void crearPersona(Persona persona) {
-        personaRepo.save(persona);
+    public Persona guardarPersona(Persona persona) {
+       return personaRepo.save(persona);
     }
     
     @Override
     public void borrarPersona(Long id){
         personaRepo.deleteById(id);
-    }
-
-    @Override
-    public void modificarPersona(Persona persona) {
-        personaRepo.save(persona);
     }
     
     @Override
@@ -33,7 +28,7 @@ public class PersonaService implements IPersonaService{
     }
     
     @Override
-    public List<Persona> verPersonas() {
+    public List<Persona> listarPersonas() {
         return personaRepo.findAll();
     }
     
