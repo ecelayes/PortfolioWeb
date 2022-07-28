@@ -1,4 +1,4 @@
-package com.portfolio.backend.security.entity;
+package com.portfolio.backend.security.models;
 
 import com.portfolio.backend.security.enums.RoleName;
 import javax.persistence.Entity;

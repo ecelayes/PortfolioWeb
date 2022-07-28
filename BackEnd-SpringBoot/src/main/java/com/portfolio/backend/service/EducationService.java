@@ -10,7 +10,7 @@ import com.portfolio.backend.repository.EducationRepository;
 public class EducationService implements IEducationService{
 
     @Autowired
-    public EducationRepository eduRepo;
+    private EducationRepository eduRepo;
     
     @Override
     public void createEducation(Education education) {

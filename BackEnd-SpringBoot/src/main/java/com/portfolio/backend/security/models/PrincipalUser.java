@@ -1,4 +1,4 @@
-package com.portfolio.backend.security.entity;
+package com.portfolio.backend.security.models;
 
 import java.util.Collection;
 import java.util.List;

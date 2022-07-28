@@ -10,7 +10,7 @@ import com.portfolio.backend.repository.ExperienceRepository;
 public class ExperienceService implements IExperienceService{
 
     @Autowired
-    public ExperienceRepository expRepo;
+    private ExperienceRepository expRepo;
     
     @Override
     public void createExperience(Experience experience) {

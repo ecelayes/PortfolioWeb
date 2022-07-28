@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.portfolio.backend.service.IPersonService;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -23,16 +24,19 @@ public class PersonController {
     @Autowired
     private IPersonService personServ;
     
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public void createPerson(@RequestBody Person person){
         personServ.createPerson(person);
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public void deletePersona(@PathVariable("id") Long id){
         personServ.deletePerson(id);
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update/{id}")
     public void updatePerson(@PathVariable("id") Long id, @RequestBody Person person){
         person.setId(id);

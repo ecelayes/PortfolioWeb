@@ -1,6 +1,6 @@
 package com.portfolio.backend.security.repository;
 
-import com.portfolio.backend.security.entity.User;
+import com.portfolio.backend.security.models.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

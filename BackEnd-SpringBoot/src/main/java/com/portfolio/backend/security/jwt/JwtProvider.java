@@ -1,6 +1,6 @@
 package com.portfolio.backend.security.jwt;
 
-import com.portfolio.backend.security.entity.PrincipalUser;
+import com.portfolio.backend.security.models.PrincipalUser;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;

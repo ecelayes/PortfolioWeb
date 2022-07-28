@@ -1,6 +1,6 @@
 package com.portfolio.backend.security.service;
 
-import com.portfolio.backend.security.entity.Role;
+import com.portfolio.backend.security.models.Role;
 import com.portfolio.backend.security.enums.RoleName;
 import java.util.Optional;
 import javax.transaction.Transactional;

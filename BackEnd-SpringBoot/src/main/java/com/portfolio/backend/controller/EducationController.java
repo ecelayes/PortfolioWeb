@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.portfolio.backend.service.IEducationService;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -23,16 +24,19 @@ public class EducationController {
     @Autowired
     private IEducationService eduServ;
     
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public void createEducation(@RequestBody Education education){
         eduServ.createEducation(education);
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public void deleteEduation(@PathVariable("id") Long id){
         eduServ.deleteEducation(id);
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update/{id}")
     public void modificarEduation(@PathVariable("id") Long id, @RequestBody Education education){
         education.setId(id);

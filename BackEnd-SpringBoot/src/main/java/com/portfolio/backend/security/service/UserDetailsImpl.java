@@ -1,7 +1,7 @@
 package com.portfolio.backend.security.service;
 
-import com.portfolio.backend.security.entity.User;
-import com.portfolio.backend.security.entity.PrincipalUser;
+import com.portfolio.backend.security.models.User;
+import com.portfolio.backend.security.models.PrincipalUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

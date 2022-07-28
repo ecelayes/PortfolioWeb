@@ -10,7 +10,7 @@ import com.portfolio.backend.repository.ProjectRepository;
 public class ProjectService implements IProjectService{
 
     @Autowired
-    public ProjectRepository proRepo;
+    private ProjectRepository proRepo;
     
     @Override
     public void createProject(Project project) {

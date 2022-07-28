@@ -1,17 +1,11 @@
 package com.portfolio.backend.models;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -68,22 +62,4 @@ public class Person implements Serializable {
     @Column(name = "dir_photo")
     @Size(max = 255, message = "Se excede la longitud de 255 caracteres")
     private String dirPhoto;
-    
-    //Relaciones entre modelos unidimencionales
-    
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "personas_id")
-    private Set<Education> educaciones = new HashSet<>();
-    
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "personas_id")
-    private Set<Experience> experiencias = new HashSet<>();
-    
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "personas_id")
-    private Set<Skills> habilidades = new HashSet<>();
-    
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "personas_id")
-    private Set<Project> proyectos = new HashSet<>();
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.portfolio.backend.service.IProjectService;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -23,16 +24,19 @@ public class ProjectController {
     @Autowired
     private IProjectService proServ;
     
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public void createProject(@RequestBody Project project){
         proServ.createProject(project);
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public void deleteProject(@PathVariable("id") Long id){
         proServ.deleteProject(id);
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update/{id}")
     public void updateProject(@PathVariable("id") Long id, @RequestBody Project project){
         project.setId(id);

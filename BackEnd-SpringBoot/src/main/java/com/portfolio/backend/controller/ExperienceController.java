@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.portfolio.backend.service.IExperienceService;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -23,16 +24,19 @@ public class ExperienceController {
     @Autowired
     private IExperienceService expServ;
     
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public void createExperience(@RequestBody Experience experience){
         expServ.createExperience(experience);
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public void deleteExperience(@PathVariable("id") Long id){
         expServ.deleteExperience(id);
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update/{id}")
     public void updateExperience(@PathVariable("id") Long id, @RequestBody Experience experience){
         experience.setId(id);

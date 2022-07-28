@@ -1,6 +1,6 @@
 package com.portfolio.backend.security.service;
 
-import com.portfolio.backend.security.entity.User;
+import com.portfolio.backend.security.models.User;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

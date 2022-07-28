@@ -10,7 +10,7 @@ import com.portfolio.backend.repository.SkillsRepository;
 public class SkillsService implements ISkillsService{
 
     @Autowired
-    public SkillsRepository habRepo;
+    private SkillsRepository habRepo;
     
     @Override
     public void createSkills(Skills skills) {
