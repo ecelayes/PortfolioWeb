@@ -1,20 +1,25 @@
-package com.portfolio.backend.security.models;
+package com.portfolio.backend.security.model;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@AllArgsConstructor
 public class PrincipalUser implements UserDetails {
-
     private String userName;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
+    //Constructor
+
+    public PrincipalUser(String userName, String password, Collection<? extends GrantedAuthority> authorities) {
+        this.userName = userName;
+        this.password = password;
+        this.authorities = authorities;
+    }
+    
     public static PrincipalUser build(User user) {
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(rol -> new SimpleGrantedAuthority(rol.getRoleName().name())).collect(Collectors
@@ -55,6 +60,6 @@ public class PrincipalUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
+    } 
+   
 }

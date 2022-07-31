@@ -1,10 +1,10 @@
 package com.portfolio.backend.repository;
 
-import com.portfolio.backend.models.Experience;
+import com.portfolio.backend.model.Experience;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface ExperienceRepository extends JpaRepository<Experience, Long>{
-    
+public interface ExperienceRepository extends JpaRepository <Experience, Long> {
+    public Optional<Experience> findByCompany (String company);
+    public boolean existsByCompany(String company);
 }

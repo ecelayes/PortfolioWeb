@@ -1,6 +1,6 @@
 package com.portfolio.backend.security.jwt;
 
-import com.portfolio.backend.security.models.PrincipalUser;
+import com.portfolio.backend.security.model.PrincipalUser;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtProvider {
+    
     private final static Logger logger = LoggerFactory.getLogger(JwtProvider.class);
     
     @Value("${jwt.secret}")
@@ -24,15 +25,15 @@ public class JwtProvider {
     private int expiration;
     
     public String generateToken(Authentication authentication){
-        PrincipalUser principalUser = (PrincipalUser) authentication.getPrincipal();
-        return Jwts.builder().setSubject(principalUser.getUsername())
+        PrincipalUser usuarioPrincipal = (PrincipalUser) authentication.getPrincipal();
+        return Jwts.builder().setSubject(usuarioPrincipal.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime()+expiration*1000))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
     
-    public String getUserNameFromToken(String token){
+    public String getNombreUSuarioFromToken(String token){
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
     }
     

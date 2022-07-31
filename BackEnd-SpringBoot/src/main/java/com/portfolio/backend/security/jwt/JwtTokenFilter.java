@@ -14,24 +14,22 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-public class JwtTokenFilter extends OncePerRequestFilter {
-
+public class JwtTokenFilter extends OncePerRequestFilter{
     private final static Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 
     @Autowired
-    private JwtProvider jwtProvider;
+    JwtProvider jwtProvider;
     @Autowired
-    private UserDetailsImpl userDetailsImpl;
+    UserDetailsImpl userDetailsServiceImpl;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String token = getToken(request);
             if (token != null && jwtProvider.validateToken(token)) {
-                String userName = jwtProvider.getUserNameFromToken(token);
-                UserDetails userDetails = userDetailsImpl.loadUserByUsername(userName);
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails,
-                        null, userDetails.getAuthorities());
+                String userName = jwtProvider.getNombreUSuarioFromToken(token);
+                UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(userName);
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         } catch (Exception e) {

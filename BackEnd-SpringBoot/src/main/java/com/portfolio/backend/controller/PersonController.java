@@ -1,8 +1,14 @@
 package com.portfolio.backend.controller;
 
-import com.portfolio.backend.models.Person;
+import com.portfolio.backend.dto.PersonDto;
+import com.portfolio.backend.model.Person;
+import com.portfolio.backend.security.model.Message;
+import com.portfolio.backend.service.PersonService;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.portfolio.backend.service.IPersonService;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -22,36 +25,69 @@ import org.springframework.security.access.prepost.PreAuthorize;
 public class PersonController {
     
     @Autowired
-    private IPersonService personServ;
+    PersonService personService;
     
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/create")
-    public void createPerson(@RequestBody Person person){
-        personServ.createPerson(person);
-    }
-    
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/delete/{id}")
-    public void deletePersona(@PathVariable("id") Long id){
-        personServ.deletePerson(id);
-    }
-    
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/update/{id}")
-    public void updatePerson(@PathVariable("id") Long id, @RequestBody Person person){
-        person.setId(id);
-        personServ.createPerson(person);
+    @GetMapping ("/list")
+    public ResponseEntity <List<Person>> list(){
+        List<Person> list = personService.list();
+        return new ResponseEntity (list, HttpStatus.OK);
     }
     
     @GetMapping("/find/{id}")
-    @ResponseBody
-    public Person findPersona(@PathVariable("id") Long id){
-        return personServ.findPerson(id);
+    public ResponseEntity<Person> getById(@PathVariable("id") Long id){
+        if(!personService.existById(id))
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
+        Person person = personService.getOne(id).get();
+        return new ResponseEntity(person, HttpStatus.OK);
     }
     
-    @GetMapping("/tolist")
-    @ResponseBody
-    public List<Person> toListPersons(){
-        return personServ.toListPersons();
+    @DeleteMapping ("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        if(!personService.existById(id))
+            return new ResponseEntity(new Message("El ID no existe"),HttpStatus.BAD_REQUEST);
+        personService.delete(id);
+        return new ResponseEntity(new Message("Persona eliminada"), HttpStatus.OK);
+    }
+    
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody PersonDto personDto) {
+        if (StringUtils.isBlank(personDto.getName())) {
+            return new ResponseEntity(new Message("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        }
+        if (StringUtils.isBlank(personDto.getSurname())) {
+            return new ResponseEntity(new Message("El apellido es obligatorio"), HttpStatus.BAD_REQUEST);
+        }
+        if (personService.existsByName(personDto.getName())) {
+            return new ResponseEntity(new Message("El nombre ingresado ya existe"), HttpStatus.BAD_REQUEST);
+        }
+        Person person = new Person(personDto.getName(),
+                                    personDto.getSurname(), 
+                                    personDto.getTitle(), 
+                                    personDto.getLocation(),
+                                    personDto.getDescription(), 
+                                    personDto.getDirPhoto(),
+                                    personDto.getDirBanner());
+        personService.save(person);
+        return new ResponseEntity(new Message("Nueva persona agregada"), HttpStatus.OK);
+    }
+    
+    @PutMapping ("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody PersonDto personDto){
+        if(!personService.existById(id))
+            return new ResponseEntity(new Message("El ID no existe"),HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(personDto.getName()))
+            return new ResponseEntity(new Message("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(personDto.getSurname()))
+            return new ResponseEntity(new Message("El apellido es obligatorio"), HttpStatus.BAD_REQUEST);
+        Person person = personService.getOne(id).get();
+                        person.setName(personDto.getName());
+                        person.setSurname(personDto.getSurname());
+                        person.setTitle(personDto.getTitle());
+                        person.setLocation(personDto.getLocation());
+                        person.setDescription(personDto.getDescription());
+                        person.setDirPhoto(personDto.getDirPhoto());
+                        person.setDirBanner(personDto.getDirBanner());
+        personService.save(person);
+        return new ResponseEntity(new Message("Datos actualizados"), HttpStatus.OK);
     }
 }

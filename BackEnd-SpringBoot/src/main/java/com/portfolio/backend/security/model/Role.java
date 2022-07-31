@@ -1,4 +1,4 @@
-package com.portfolio.backend.security.models;
+package com.portfolio.backend.security.model;
 
 import com.portfolio.backend.security.enums.RoleName;
 import javax.persistence.Entity;
@@ -9,22 +9,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     @NotNull
     @Enumerated(EnumType.STRING)
     private RoleName roleName;
 
     //Constructor
     
+    public Role() {
+    }
+
     public Role(RoleName roleName) {
         this.roleName = roleName;
     }
