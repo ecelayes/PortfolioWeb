@@ -1,8 +1,14 @@
 package com.portfolio.backend.controller;
 
-import com.portfolio.backend.models.Experience;
+import com.portfolio.backend.dto.ExperienceDto;
+import com.portfolio.backend.model.Experience;
+import com.portfolio.backend.security.model.Message;
+import com.portfolio.backend.service.ExperienceService;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.portfolio.backend.service.IExperienceService;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -22,36 +25,67 @@ import org.springframework.security.access.prepost.PreAuthorize;
 public class ExperienceController {
     
     @Autowired
-    private IExperienceService expServ;
+    ExperienceService experienceService;
     
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/create")
-    public void createExperience(@RequestBody Experience experience){
-        expServ.createExperience(experience);
-    }
-    
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/delete/{id}")
-    public void deleteExperience(@PathVariable("id") Long id){
-        expServ.deleteExperience(id);
-    }
-    
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/update/{id}")
-    public void updateExperience(@PathVariable("id") Long id, @RequestBody Experience experience){
-        experience.setId(id);
-        expServ.createExperience(experience);
+    @GetMapping ("/list")
+    public ResponseEntity <List<Experience>> list(){
+        List<Experience> list = experienceService.list();
+        return new ResponseEntity (list, HttpStatus.OK);
     }
     
     @GetMapping("/find/{id}")
-    @ResponseBody
-    public Experience findExperience(@PathVariable("id") Long id){
-        return expServ.findExperience(id);
+    public ResponseEntity<Experience> getById(@PathVariable("id") Long id){
+        if(!experienceService.existById(id))
+            return new ResponseEntity(new Message("El ID no existe"), HttpStatus.NOT_FOUND);
+        Experience experience = experienceService.getOne(id).get();
+        return new ResponseEntity(experience, HttpStatus.OK);
     }
     
-    @GetMapping("/tolist")
-    @ResponseBody
-    public List<Experience> toListExperiences(){
-        return expServ.toListExperiences();
+    @DeleteMapping ("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        if(!experienceService.existById(id))
+            return new ResponseEntity(new Message("El ID no existe"),HttpStatus.BAD_REQUEST);
+        experienceService.delete(id);
+        return new ResponseEntity(new Message("Experiencia laboral eliminada"), HttpStatus.OK);
+    }
+    
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody ExperienceDto experienceDto) {
+        if (StringUtils.isBlank(experienceDto.getCompany())) {
+            return new ResponseEntity(new Message("La empresa es obligatoria"), HttpStatus.BAD_REQUEST);
+        }
+        if (StringUtils.isBlank(experienceDto.getPosition())) {
+            return new ResponseEntity(new Message("El cargo es obligatorio"), HttpStatus.BAD_REQUEST);
+        }
+        if (experienceService.existsByCompany(experienceDto.getCompany())) {
+            return new ResponseEntity(new Message("La empresa ingresada ya existe"), HttpStatus.BAD_REQUEST);
+        }
+        Experience experience = new Experience(experienceDto.getCompany(),
+                                            experienceDto.getPosition(),
+                                            experienceDto.getStartDate(),
+                                            experienceDto.getEndDate(),
+                                            experienceDto.getDescription(),
+                                            experienceDto.getDirIcon());
+        experienceService.save(experience);
+        return new ResponseEntity(new Message("Nueva experiencia laboral agregada"), HttpStatus.OK);
+    }
+    
+    @PutMapping ("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody ExperienceDto experienceDto){
+        if(!experienceService.existById(id))
+            return new ResponseEntity(new Message("El ID no existe"),HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(experienceDto.getCompany()))
+            return new ResponseEntity(new Message("La empresa es obligatoria"), HttpStatus.BAD_REQUEST);
+        if(StringUtils.isBlank(experienceDto.getPosition()))
+            return new ResponseEntity(new Message("El cargo es obligatorio"), HttpStatus.BAD_REQUEST);
+        Experience experience = experienceService.getOne(id).get();
+                        experience.setCompany(experienceDto.getCompany());
+                        experience.setPosition(experienceDto.getPosition());
+                        experience.setStartDate(experienceDto.getStartDate());
+                        experience.setEndDate(experienceDto.getEndDate());
+                        experience.setDescription(experienceDto.getDescription());
+                        experience.setDirIcon(experienceDto.getDirIcon());
+        experienceService.save(experience);
+        return new ResponseEntity(new Message("Datos actualizados"), HttpStatus.OK);
     }
 }

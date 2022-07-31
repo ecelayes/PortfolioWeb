@@ -1,35 +1,45 @@
 package com.portfolio.backend.service;
 
-import com.portfolio.backend.models.Project;
+import com.portfolio.backend.model.Project;
+import com.portfolio.backend.repository.ProjectRepository;
 import java.util.List;
+import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.portfolio.backend.repository.ProjectRepository;
 
 @Service
-public class ProjectService implements IProjectService{
-
+@Transactional
+public class ProjectService {
+    
     @Autowired
-    private ProjectRepository proRepo;
+    ProjectRepository projectRepository;
     
-    @Override
-    public void createProject(Project project) {
-        proRepo.save(project);
-    }
-
-    @Override
-    public void deleteProject(Long id) {
-        proRepo.deleteById(id);
-    }
-
-    @Override
-    public Project findProject(Long id) {
-        return proRepo.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<Project> toListProjects() {
-        return proRepo.findAll();
+    public void save(Project project){
+        projectRepository.save(project);
     }
     
+    public void delete(Long id){
+        projectRepository.deleteById(id);
+    }
+    
+    public Optional<Project> getOne(Long id){
+        return projectRepository.findById(id);
+    }
+    
+    public Optional<Project> getByNameProject (String nameProject){
+        return projectRepository.findByNameProject(nameProject);
+    }
+    
+    public List<Project> list(){
+        return projectRepository.findAll();
+    }
+    
+    public boolean existById(Long id){
+        return projectRepository.existsById(id);
+    }
+    
+    public boolean existsByNameProject(String nameProject){
+        return projectRepository.existsByNameProject(nameProject);         
+    }
 }

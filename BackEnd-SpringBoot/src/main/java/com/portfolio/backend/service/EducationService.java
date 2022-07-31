@@ -1,35 +1,45 @@
 package com.portfolio.backend.service;
 
-import com.portfolio.backend.models.Education;
+import com.portfolio.backend.model.Education;
+import com.portfolio.backend.repository.EducationRepository;
 import java.util.List;
+import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.portfolio.backend.repository.EducationRepository;
 
 @Service
-public class EducationService implements IEducationService{
-
+@Transactional
+public class EducationService {
+    
     @Autowired
-    private EducationRepository eduRepo;
+    EducationRepository educationRepository;
     
-    @Override
-    public void createEducation(Education education) {
-        eduRepo.save(education);
-    }
-
-    @Override
-    public void deleteEducation(Long id) {
-        eduRepo.deleteById(id);
-    }
-
-    @Override
-    public Education findEducation(Long id) {
-        return eduRepo.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<Education> toListEducations() {
-       return eduRepo.findAll();
+    public void save(Education education){
+        educationRepository.save(education);
     }
     
+    public void delete(Long id){
+        educationRepository.deleteById(id);
+    }
+    
+    public Optional<Education> getOne(Long id){
+        return educationRepository.findById(id);
+    }
+    
+    public Optional<Education> getByDegree (String degree){
+        return educationRepository.findByDegree(degree);
+    }
+    
+    public List<Education> list(){
+        return educationRepository.findAll();
+    }
+    
+    public boolean existById(Long id){
+        return educationRepository.existsById(id);
+    }
+    
+    public boolean existsByDegree(String degree){
+        return educationRepository.existsByDegree(degree);         
+    }
 }
