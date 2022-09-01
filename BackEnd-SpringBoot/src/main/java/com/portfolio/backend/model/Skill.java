@@ -17,14 +17,14 @@ public class Skill {
     private Long id;
     private String nameSkill;
     private String dirIcon;
-    private int percentage;
+    private int years;
     
     //Constructor
 
     public Skill(String nameSkill, String dirIcon, int percentage) {
         this.nameSkill = nameSkill;
         this.dirIcon = dirIcon;
-        this.percentage = percentage;
+        this.years = percentage;
     }
     
 }

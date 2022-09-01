@@ -1,8 +1,11 @@
 package com.portfolio.backend.security.dto;
 
 import java.util.Collection;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
+@Getter @Setter
 public class JwtDto {
     
     private String token;
@@ -15,40 +18,6 @@ public class JwtDto {
     public JwtDto(String token, String userName, Collection<? extends GrantedAuthority> authorities) {
         this.token = token;
         this.userName = userName;
-        this.authorities = authorities;
-    }
-    
-    //Getter & Setter
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getBearer() {
-        return bearer;
-    }
-
-    public void setBearer(String bearer) {
-        this.bearer = bearer;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
         this.authorities = authorities;
     }
     
