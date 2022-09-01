@@ -13,5 +13,5 @@ public class SkillDto {
     @NotBlank
     private String dirIcon;
     @NotBlank
-    private int percentage;
+    private int years;
 }
