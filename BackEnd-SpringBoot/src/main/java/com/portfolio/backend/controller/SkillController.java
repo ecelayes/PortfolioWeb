@@ -59,7 +59,7 @@ public class SkillController {
         }
         Skill skill = new Skill(skillDto.getNameSkill(),
                                 skillDto.getDirIcon(),
-                                skillDto.getYears());
+                                skillDto.getPercentage());
         skillService.save(skill);
         return new ResponseEntity(new Message("Nueva habilidad agregada"), HttpStatus.OK);
     }
@@ -73,7 +73,7 @@ public class SkillController {
         Skill skill = skillService.getOne(id).get();
                         skill.setNameSkill(skillDto.getNameSkill());
                         skill.setDirIcon(skillDto.getDirIcon());
-                        skill.setYears(skillDto.getYears());
+                        skill.setPercentage(skillDto.getPercentage());
         skillService.save(skill);
         return new ResponseEntity(new Message("Datos actualizados"), HttpStatus.OK);
     }
